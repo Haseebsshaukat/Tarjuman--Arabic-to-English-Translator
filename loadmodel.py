@@ -13,7 +13,8 @@ tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-ar-en")
 # Load trained model
 def load_trained_model(model_path):
     model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-ar-en")
-    model.load_state_dict(torch.load(model_path, map_location=device))
+    # Set weights_only=False to avoid UnpicklingError
+    model.load_state_dict(torch.load(model_path, map_location=device, weights_only=False))
     model.to(device)
     model.eval()
     return model
